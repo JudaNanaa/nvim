@@ -5,7 +5,7 @@ return {
 	lazy = false,
 	config = function()
 		require("nvim-treesitter.configs").setup({
-			ensure_installed = { "rust", "python", "bash", "toml" },
+			ensure_installed = { "rust", "python", "bash", "toml", "regex" },
 			auto_install = true,
 			highlight = { enable = true },
 			indent = { enable = true },
