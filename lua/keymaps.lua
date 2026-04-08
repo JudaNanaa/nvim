@@ -19,9 +19,23 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Cargo
-vim.keymap.set("n", "<leader>rb", "<cmd>!cargo build<cr>")
-vim.keymap.set("n", "<leader>rr", "<cmd>!cargo run<cr>")
-vim.keymap.set("n", "<leader>rt", "<cmd>!cargo test<cr>")
+local function cargo_float(cmd, label)
+  local ok, toggleterm = pcall(require, "toggleterm.terminal")
+  if not ok then
+    vim.notify("toggleterm not loaded", vim.log.levels.ERROR)
+    return
+  end
+  toggleterm.Terminal:new({
+    cmd = "echo '> " .. label .. "' && " .. cmd,
+    direction = "float",
+    close_on_exit = false,
+  }):toggle()
+end
+
+vim.keymap.set("n", "<leader>rb", function() cargo_float("cargo build", "cargo build") end)
+vim.keymap.set("n", "<leader>rr", function() cargo_float("cargo run",   "cargo run")   end)
+vim.keymap.set("n", "<leader>rt", function() cargo_float("cargo test",  "cargo test")  end)
+vim.keymap.set("n", "<leader>rf", function() cargo_float("cargo fmt",   "cargo fmt")   end)
 
 -- Commentaires (C-/ ou C-_ selon le terminal)
 local function comment_line()

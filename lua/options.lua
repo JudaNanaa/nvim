@@ -29,3 +29,6 @@ vim.diagnostic.config({
 	underline = true,
 	update_in_insert = false,
 })
+
+-- inlay hints
+vim.lsp.inlay_hint.enable(true)
