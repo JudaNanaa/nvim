@@ -1,5 +1,6 @@
 return {
 	"stevearc/oil.nvim",
+	dependencies = { "refractalize/oil-git-status.nvim" },
 	config = function()
 		require("oil").setup({
 			keymaps = {
@@ -9,8 +10,11 @@ return {
 				max_width = 0.5,
 				min_width = 0.3,
 			},
+			win_options = {
+				signcolumn = "yes:2",
+			},
 		})
-
+		require("oil-git-status").setup()
 		-- Auto-preview au mouvement du curseur
 		vim.api.nvim_create_autocmd("CursorMoved", {
 			pattern = "oil://*",
