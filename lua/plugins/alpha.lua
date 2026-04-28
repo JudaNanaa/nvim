@@ -9,6 +9,7 @@ return {
 			dashboard.button("r", "  Fichiers récents", "<cmd>FzfLua oldfiles<cr>"),
 			dashboard.button("g", "  Grep projet", "<cmd>FzfLua live_grep<cr>"),
 			dashboard.button("e", "  Explorateur", "<cmd>Oil<cr>"),
+			dashboard.button("c", "  Config", "<cmd>Oil ~/.config/nvim/<cr>"),
 			dashboard.button("q", "  Quitter", "<cmd>qa<cr>"),
 		}
 
