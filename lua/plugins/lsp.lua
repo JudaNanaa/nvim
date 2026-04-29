@@ -9,7 +9,7 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "lua_ls", "wgsl_analyzer" },
+				ensure_installed = { "rust_analyzer", "lua_ls", "wgsl_analyzer", "clangd" },
 				automatic_installation = true,
 			})
 		end,
