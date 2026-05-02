@@ -31,7 +31,10 @@ return {
 				settings = {
 					["rust-analyzer"] = {
 						checkOnSave = true,
-						check = { command = "clippy" },
+						check = {
+							command = "clippy",
+							extraArgs = { "--", "-W", "clippy::pedantic" },
+						},
 						cargo = { allFeatures = true },
 						inlayHints = {
 							typeHints = { enable = true },
