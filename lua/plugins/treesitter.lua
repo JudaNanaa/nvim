@@ -1,14 +1,12 @@
 return {
-	"nvim-treesitter/nvim-treesitter",
-	tag = "v0.9.3",
-	build = ":TSUpdate",
-	lazy = false,
-	config = function()
-		require("nvim-treesitter.configs").setup({
-			ensure_installed = { "rust", "python", "bash", "toml", "regex", "c", "cpp" },
-			auto_install = true,
-			highlight = { enable = true },
-			indent = { enable = true },
-		})
-	end,
+  "nvim-treesitter/nvim-treesitter",
+  branch = "main",   
+  build = ":TSUpdate",
+  lazy = false,
+  opts = {
+    ensure_installed = { "rust", "python", "bash", "toml", "regex", "c", "cpp" },
+    auto_install = true,
+    highlight = { enable = true },
+    indent = { enable = true },
+  },
 }

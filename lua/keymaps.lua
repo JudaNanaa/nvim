@@ -6,8 +6,17 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end)
+vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end)
+
+-- Envoie tous les diagnostics dans la quickfix list
+vim.keymap.set("n", "<leader>dq", function()
+	vim.diagnostic.setqflist()
+end, { desc = "Diagnostics dans quickfix" })
+
+-- Navigation quickfix
+vim.keymap.set("n", "]q", "<cmd>cnext<cr>")
+vim.keymap.set("n", "[q", "<cmd>cprev<cr>")
 
 -- Sauvegarder
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>")
@@ -20,22 +29,22 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Cargo
 local function cargo_float(cmd, label)
-  local ok, toggleterm = pcall(require, "toggleterm.terminal")
-  if not ok then
-    vim.notify("toggleterm not loaded", vim.log.levels.ERROR)
-    return
-  end
-  toggleterm.Terminal:new({
-    cmd = "echo '> " .. label .. "' && " .. cmd,
-    direction = "float",
-    close_on_exit = false,
-  }):toggle()
+	local ok, toggleterm = pcall(require, "toggleterm.terminal")
+	if not ok then
+		vim.notify("toggleterm not loaded", vim.log.levels.ERROR)
+		return
+	end
+	toggleterm.Terminal:new({
+		cmd = "echo '> " .. label .. "' && " .. cmd,
+		direction = "float",
+		close_on_exit = false,
+	}):toggle()
 end
 
 vim.keymap.set("n", "<leader>rb", function() cargo_float("cargo build", "cargo build") end)
-vim.keymap.set("n", "<leader>rr", function() cargo_float("cargo run",   "cargo run")   end)
-vim.keymap.set("n", "<leader>rt", function() cargo_float("cargo test",  "cargo test")  end)
-vim.keymap.set("n", "<leader>rf", function() cargo_float("cargo fmt",   "cargo fmt")   end)
+vim.keymap.set("n", "<leader>rr", function() cargo_float("cargo run", "cargo run") end)
+vim.keymap.set("n", "<leader>rt", function() cargo_float("cargo test", "cargo test") end)
+vim.keymap.set("n", "<leader>rf", function() cargo_float("cargo fmt", "cargo fmt") end)
 
 -- Commentaires (C-/ ou C-_ selon le terminal)
 local function comment_line()
