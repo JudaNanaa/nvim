@@ -18,6 +18,7 @@ return {
 		"neovim/nvim-lspconfig",
 		config = function()
 			-- Inlay hints sur chaque buffer LSP
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -28,6 +29,7 @@ return {
 			})
 
 			vim.lsp.config("rust_analyzer", {
+				capabilities = capabilities,
 				settings = {
 					["rust-analyzer"] = {
 						checkOnSave = false,
@@ -44,9 +46,22 @@ return {
 					},
 				},
 			})
-			vim.lsp.config("lua_ls", {})
-			vim.lsp.config("zls", {})
+			vim.lsp.config("lua_ls", {
+				capabilities = capabilities,
+			})
+			vim.lsp.config("zls", {
+				capabilities = capabilities,
+				settings = {
+					zls = {
+						enable_autofix = true,
+						enable_snippets = true,
+						enable_build_on_save = false,
+						warn_style = true,
+					},
+				},
+			})
 			vim.lsp.config("bacon_ls", {
+				capabilities = capabilities,
 				init_options = {
 					updateOnSave = true,
 					updateOnSaveWaitMillis = 1000,
@@ -54,7 +69,8 @@ return {
 				},
 			})
 			vim.lsp.config("clangd", {
-				filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }
+				capabilities = capabilities,
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 			})
 			vim.lsp.enable("rust_analyzer")
 			vim.lsp.enable("lua_ls")
@@ -80,7 +96,9 @@ return {
 		keys = {
 			{
 				"<leader>lf",
-				function() require("conform").format({ async = true, lsp_fallback = true }) end,
+				function()
+					require("conform").format({ async = true, lsp_fallback = true })
+				end,
 				mode = { "n", "v" },
 				desc = "Format buffer",
 			},
